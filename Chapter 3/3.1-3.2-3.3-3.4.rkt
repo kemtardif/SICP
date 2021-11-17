@@ -48,16 +48,20 @@
     (set! balance (+ balance amount))
     balance)
   (define (denied m) "Wrong Password")
-  (define (dispatch m)
-    (cond ((eq? m 'withdraw) withdraw)
+  (define (dispatch  try m)
+    (if (eq? try password)
+        (cond ((eq? m 'withdraw) withdraw)
           ((eq? m 'deposit) deposit)
           (else (error "Unknown request: MAKE-ACCOUNT"
-                       m))))
+                       m)))
+          denied
+    ))
   (define (password-protection try m)
     (if (eq? password try)
         (dispatch m)
          denied))
   password-protection)
+
 
 ;=============================================3.4============================================
 
